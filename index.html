@@ -126,63 +126,255 @@
 
   <!-- ============ HERO ============ -->
   <section class="hero" id="hero">
+    <div class="hero-bg" aria-hidden="true">
+      <div class="hero-grid"></div>
+      <div class="hero-glow hero-glow-a"></div>
+      <div class="hero-glow hero-glow-b"></div>
+      <div class="hero-noise"></div>
+    </div>
+
     <div class="hero-scenes" aria-hidden="true">
 
-      <!-- SCENE 1 :: code matrix -->
+      <!-- ============================================
+           SCENE 0  ::  GROWTH ARROW + VERTICAL BARS
+           ============================================ -->
       <div class="hero-scene is-active" data-scene="0">
         <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
           <defs>
-            <radialGradient id="s1-glow" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="#61f9b0" stop-opacity="0.30"/>
-              <stop offset="60%" stop-color="#61f9b0" stop-opacity="0"/>
+            <linearGradient id="s0-arrow" x1="0" x2="1" y1="1" y2="0">
+              <stop offset="0%"  stop-color="#15a085"/>
+              <stop offset="55%" stop-color="#61f9b0"/>
+              <stop offset="100%" stop-color="#a8fbd0"/>
+            </linearGradient>
+            <linearGradient id="s0-bar" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%"  stop-color="#61f9b0" stop-opacity="0.95"/>
+              <stop offset="100%" stop-color="#15a085" stop-opacity="0.05"/>
+            </linearGradient>
+            <radialGradient id="s0-ground" cx="50%" cy="100%" r="50%">
+              <stop offset="0%"  stop-color="#61f9b0" stop-opacity="0.55"/>
+              <stop offset="70%" stop-color="#61f9b0" stop-opacity="0"/>
             </radialGradient>
+            <filter id="s0-glow" x="-10%" y="-10%" width="120%" height="120%">
+              <feGaussianBlur stdDeviation="10" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
           </defs>
-          <rect width="1600" height="900" fill="url(#s1-glow)"/>
-          <g class="code-cols" font-family="ui-monospace, monospace" font-size="14"></g>
-          <g class="orbit-rings" fill="none" stroke-width="1.2">
-            <circle cx="800" cy="450" r="180"/>
-            <circle cx="800" cy="450" r="260"/>
-            <circle cx="800" cy="450" r="340"/>
+
+          <!-- horizontal baseline ticks -->
+          <g class="s0-grid">
+            <line x1="0" y1="780" x2="1600" y2="780"/>
+            <line x1="0" y1="620" x2="1600" y2="620"/>
+            <line x1="0" y1="460" x2="1600" y2="460"/>
+            <line x1="0" y1="300" x2="1600" y2="300"/>
           </g>
-          <g class="orbit-dots">
-            <circle cx="980" cy="450" r="5"/>
-            <circle cx="540" cy="450" r="5"/>
-            <circle cx="800" cy="110" r="5"/>
+
+          <!-- cluster of vertical green bars (JS generates inside) -->
+          <g class="s0-bars"></g>
+
+          <!-- small repeating upward arrows (mid-ground) -->
+          <g class="s0-mini-arrows">
+            <path d="M520,720 L520,380 M504,408 L520,380 L536,408" stroke-width="3" stroke-linecap="round" fill="none"/>
+            <path d="M620,720 L620,330 M604,358 L620,330 L636,358" stroke-width="3" stroke-linecap="round" fill="none"/>
+            <path d="M720,720 L720,250 M704,278 L720,250 L736,278" stroke-width="3" stroke-linecap="round" fill="none"/>
+            <path d="M820,720 L820,190 M804,218 L820,190 L836,218" stroke-width="3" stroke-linecap="round" fill="none"/>
+            <path d="M920,720 L920,290 M904,318 L920,290 L936,318" stroke-width="3" stroke-linecap="round" fill="none"/>
+          </g>
+
+          <!-- soft ground glow -->
+          <rect x="0" y="640" width="1600" height="260" fill="url(#s0-ground)"/>
+
+          <!-- big curved ascending arrow -->
+          <path class="s0-arrow-line"
+                d="M120,780 Q380,740 580,600 T1020,300 L1380,140"
+                fill="none" stroke="url(#s0-arrow)"
+                stroke-width="26" stroke-linecap="round"
+                filter="url(#s0-glow)"/>
+          <polygon class="s0-arrow-head"
+                   points="1320,200 1440,120 1400,280"
+                   fill="#a8fbd0" filter="url(#s0-glow)"/>
+
+          <!-- impact pulses at origin -->
+          <circle class="s0-pulse" cx="120" cy="780" r="14" fill="#61f9b0"/>
+          <circle class="s0-pulse-2" cx="120" cy="780" r="14" fill="#61f9b0"/>
+
+          <!-- spark particles trailing arrow -->
+          <g class="s0-sparks">
+            <circle cx="200" cy="750" r="2"/>
+            <circle cx="320" cy="720" r="2.5"/>
+            <circle cx="450" cy="660" r="2"/>
+            <circle cx="600" cy="560" r="3"/>
+            <circle cx="760" cy="440" r="2"/>
+            <circle cx="900" cy="350" r="2.5"/>
+            <circle cx="1080" cy="280" r="3"/>
+            <circle cx="1220" cy="220" r="2"/>
           </g>
         </svg>
       </div>
 
-      <!-- SCENE 2 :: neural net -->
+      <!-- ============================================
+           SCENE 1  ::  TWIN PERCENTAGE BAR PANELS
+           ============================================ -->
       <div class="hero-scene" data-scene="1">
         <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
-          <g class="nn-edges" stroke-width="1.2" fill="none"></g>
-          <g class="nn-nodes"></g>
+          <defs>
+            <linearGradient id="s1-big" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%"  stop-color="#61f9b0" stop-opacity="0.30"/>
+              <stop offset="100%" stop-color="#15a085" stop-opacity="0"/>
+            </linearGradient>
+            <linearGradient id="s1-small" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%"  stop-color="#a8c8b9" stop-opacity="0.18"/>
+              <stop offset="100%" stop-color="#a8c8b9" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+
+          <!-- LEFT panel: smaller dimmed bar (10% feel) -->
+          <g class="s1-panel s1-small">
+            <!-- dotted vertical grid lines -->
+            <g class="s1-grid">
+              <line x1="180" y1="500" x2="180" y2="820"/>
+              <line x1="260" y1="500" x2="260" y2="820"/>
+              <line x1="340" y1="500" x2="340" y2="820"/>
+              <line x1="420" y1="500" x2="420" y2="820"/>
+              <line x1="500" y1="500" x2="500" y2="820"/>
+            </g>
+            <!-- top dotted indicator line -->
+            <line class="s1-ind-l" x1="200" y1="320" x2="200" y2="630"/>
+            <circle class="s1-ind-l-dot" cx="200" cy="320" r="6"/>
+            <!-- bar shape -->
+            <path class="s1-bar-fill-s" d="M180,630 L420,630 L500,720 L500,820 L180,820 Z" fill="url(#s1-small)"/>
+            <path class="s1-bar-top-s" d="M180,630 L420,630 L500,720" fill="none" stroke="#d8efe2" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+          </g>
+
+          <!-- RIGHT panel: bigger neon bar (25% feel) -->
+          <g class="s1-panel s1-big">
+            <!-- dotted vertical grid lines -->
+            <g class="s1-grid">
+              <line x1="940" y1="280" x2="940" y2="820"/>
+              <line x1="1040" y1="280" x2="1040" y2="820"/>
+              <line x1="1140" y1="280" x2="1140" y2="820"/>
+              <line x1="1240" y1="280" x2="1240" y2="820"/>
+              <line x1="1340" y1="280" x2="1340" y2="820"/>
+            </g>
+            <!-- top dotted indicator -->
+            <line class="s1-ind-r" x1="970" y1="120" x2="970" y2="380"/>
+            <circle class="s1-ind-r-dot" cx="970" cy="120" r="7"/>
+            <!-- bar shape -->
+            <path class="s1-bar-fill-b" d="M940,380 L1240,380 L1340,500 L1340,820 L940,820 Z" fill="url(#s1-big)"/>
+            <path class="s1-bar-top-b" d="M940,380 L1240,380 L1340,500" fill="none" stroke="#61f9b0" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+          </g>
+
+          <!-- floating menu chip -->
+          <g class="s1-menu">
+            <rect x="80" y="80" width="200" height="64" rx="18"/>
+            <text x="120" y="121" font-family="Cairo, sans-serif" font-size="22" font-weight="600">Menu</text>
+            <text x="232" y="123" font-family="Cairo, sans-serif" font-size="28" font-weight="400">+</text>
+          </g>
         </svg>
       </div>
 
-      <!-- SCENE 3 :: hex grid -->
+      <!-- ============================================
+           SCENE 2  ::  CONSULTING NETWORK (HUB + SPOKES)
+           ============================================ -->
       <div class="hero-scene" data-scene="2">
         <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
           <defs>
-            <pattern id="hex-pat" x="0" y="0" width="80" height="92" patternUnits="userSpaceOnUse">
-              <polygon points="40,4 76,24 76,68 40,88 4,68 4,24" fill="none" stroke-width="1"/>
-            </pattern>
+            <radialGradient id="s2-center" cx="50%" cy="50%" r="50%">
+              <stop offset="0%"  stop-color="#61f9b0" stop-opacity="0.45"/>
+              <stop offset="100%" stop-color="#61f9b0" stop-opacity="0"/>
+            </radialGradient>
           </defs>
-          <rect width="1600" height="900" fill="url(#hex-pat)" class="hex-base"/>
-          <g class="hex-pulse">
-            <polygon points="40,4 76,24 76,68 40,88 4,68 4,24" transform="translate(360 280)"/>
-            <polygon points="40,4 76,24 76,68 40,88 4,68 4,24" transform="translate(840 460)"/>
-            <polygon points="40,4 76,24 76,68 40,88 4,68 4,24" transform="translate(1200 200)"/>
-            <polygon points="40,4 76,24 76,68 40,88 4,68 4,24" transform="translate(560 620)"/>
+
+          <!-- concentric orbits -->
+          <g class="s2-orbits" fill="none">
+            <circle cx="800" cy="450" r="140"/>
+            <circle cx="800" cy="450" r="240"/>
+            <circle cx="800" cy="450" r="340"/>
           </g>
+
+          <!-- radial connection lines (hub→spokes) -->
+          <g class="s2-edges" stroke-linecap="round"></g>
+
+          <!-- center hub -->
+          <circle class="s2-hub-glow" cx="800" cy="450" r="160" fill="url(#s2-center)"/>
+          <circle class="s2-hub" cx="800" cy="450" r="28" fill="#61f9b0"/>
+          <circle class="s2-hub-ring" cx="800" cy="450" r="44" fill="none" stroke="#61f9b0" stroke-width="2"/>
+
+          <!-- spoke nodes -->
+          <g class="s2-nodes"></g>
+
+          <!-- traveling pulses along edges -->
+          <g class="s2-pulses"></g>
         </svg>
       </div>
 
-      <!-- SCENE 4 :: waves -->
+      <!-- ============================================
+           SCENE 3  ::  LIVE TREND LINE WITH PEAKS
+           ============================================ -->
       <div class="hero-scene" data-scene="3">
         <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
-          <g class="wave-lines" fill="none" stroke-width="1.5"></g>
-          <g class="data-dots"></g>
+          <defs>
+            <linearGradient id="s3-area" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%"  stop-color="#61f9b0" stop-opacity="0.32"/>
+              <stop offset="100%" stop-color="#61f9b0" stop-opacity="0"/>
+            </linearGradient>
+            <linearGradient id="s3-line" x1="0" x2="1" y1="0" y2="0">
+              <stop offset="0%"  stop-color="#29c89e"/>
+              <stop offset="50%" stop-color="#61f9b0"/>
+              <stop offset="100%" stop-color="#a8fbd0"/>
+            </linearGradient>
+            <filter id="s3-glow">
+              <feGaussianBlur stdDeviation="4"/>
+            </filter>
+          </defs>
+
+          <!-- chart grid -->
+          <g class="s3-grid">
+            <line x1="0" y1="700" x2="1600" y2="700"/>
+            <line x1="0" y1="550" x2="1600" y2="550"/>
+            <line x1="0" y1="400" x2="1600" y2="400"/>
+            <line x1="0" y1="250" x2="1600" y2="250"/>
+            <line x1="200" y1="100" x2="200" y2="800" stroke-dasharray="2 8"/>
+            <line x1="500" y1="100" x2="500" y2="800" stroke-dasharray="2 8"/>
+            <line x1="800" y1="100" x2="800" y2="800" stroke-dasharray="2 8"/>
+            <line x1="1100" y1="100" x2="1100" y2="800" stroke-dasharray="2 8"/>
+            <line x1="1400" y1="100" x2="1400" y2="800" stroke-dasharray="2 8"/>
+          </g>
+
+          <!-- area under line -->
+          <path class="s3-area"
+                d="M100,720 L260,640 L420,560 L580,490 L740,400 L900,310 L1060,260 L1220,180 L1380,150 L1500,130 L1500,820 L100,820 Z"
+                fill="url(#s3-area)"/>
+
+          <!-- glowing soft trail -->
+          <path class="s3-trail"
+                d="M100,720 L260,640 L420,560 L580,490 L740,400 L900,310 L1060,260 L1220,180 L1380,150 L1500,130"
+                fill="none" stroke="#61f9b0" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"
+                opacity="0.20" filter="url(#s3-glow)"/>
+
+          <!-- main data line -->
+          <path class="s3-line"
+                d="M100,720 L260,640 L420,560 L580,490 L740,400 L900,310 L1060,260 L1220,180 L1380,150 L1500,130"
+                fill="none" stroke="url(#s3-line)"
+                stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+
+          <!-- data points -->
+          <g class="s3-points">
+            <circle cx="260" cy="640" r="6"/>
+            <circle cx="580" cy="490" r="6"/>
+            <circle cx="900" cy="310" r="9"/>
+            <circle cx="1220" cy="180" r="7"/>
+            <circle cx="1500" cy="130" r="11"/>
+          </g>
+
+          <!-- peak indicator line + dot -->
+          <line class="s3-peak-line" x1="1500" y1="130" x2="1500" y2="60" stroke-dasharray="3 6"/>
+          <circle class="s3-peak-dot" cx="1500" cy="60" r="5"/>
+
+          <!-- LIVE label dot top-right -->
+          <g class="s3-live" transform="translate(80 80)">
+            <circle cx="0" cy="0" r="6" fill="#61f9b0"/>
+            <text x="14" y="5" font-family="Cairo, sans-serif" font-size="18" font-weight="700">LIVE</text>
+          </g>
         </svg>
       </div>
 
@@ -192,13 +384,13 @@
       <div class="hero-slides">
 
         <article class="hero-slide is-active" data-slide="0">
-          <span class="hero-eyebrow"><i></i> منصة تقنية متكاملة</span>
+          <span class="hero-eyebrow"><i></i> استشارات وتقنية متكاملة</span>
           <h1 class="hero-title">
-            نُعيد تعريف <span class="grad-text">التحوّل الرقمي</span>
-            <br/>بحلول <em>ذكية</em> ومتطوّرة.
+            قرارات <span class="grad-text">مدروسة</span>
+            <br/>ونمو <em>قابل للقياس</em>.
           </h1>
           <p class="hero-text">
-            في ترسيه نحوّل أفكارك الطموحة إلى منتجات رقمية احترافية، عبر منظومة من الخدمات التقنية والاستشارية المتكاملة.
+            في ترسيه نمزج بين الاستشارة الإستراتيجية والحلول التقنية المتقدمة، لنحوّل أهدافك إلى نتائج موثّقة بالأرقام.
           </p>
         </article>
 
@@ -214,13 +406,13 @@
         </article>
 
         <article class="hero-slide" data-slide="2">
-          <span class="hero-eyebrow"><i></i> هندسة برمجيات وتشغيل</span>
+          <span class="hero-eyebrow"><i></i> استشارات أعمال وتشغيل</span>
           <h1 class="hero-title">
-            من <span class="grad-text">الفكرة</span>
-            <br/>إلى <em>الإنتاج</em>.
+            من <span class="grad-text">الإستراتيجية</span>
+            <br/>إلى <em>التنفيذ</em>.
           </h1>
           <p class="hero-text">
-            فريق متخصص في تصميم وتطوير ومراقبة وصيانة الأنظمة طوال دورة حياتها، مع ضمانات أداء عالية.
+            فريق استشاري وهندسي متخصص في تصميم خطط الأعمال، وتنفيذ ومراقبة الأنظمة طوال دورة حياتها بمؤشرات أداء واضحة.
           </p>
         </article>
 
@@ -265,12 +457,23 @@
       </div>
     </div>
 
+    <!-- subtle floating tech stats — minimal, calm -->
     <div class="hero-chips" aria-hidden="true">
-      <div class="chip chip-1"><b>{</b> CODE <b>}</b></div>
-      <div class="chip chip-2">AI · ML</div>
-      <div class="chip chip-3">CLOUD</div>
-      <div class="chip chip-4">DevOps</div>
-      <div class="chip chip-5">UI / UX</div>
+      <div class="chip chip-1">
+        <span class="chip-dot"></span>
+        <span class="chip-num">+24%</span>
+        <span class="chip-label">نمو</span>
+      </div>
+      <div class="chip chip-2">
+        <span class="chip-dot"></span>
+        <span class="chip-num">7</span>
+        <span class="chip-label">قطاعات</span>
+      </div>
+      <div class="chip chip-3">
+        <span class="chip-dot"></span>
+        <span class="chip-num">350+</span>
+        <span class="chip-label">مشروع</span>
+      </div>
     </div>
 
     <div class="hero-scroll">
@@ -287,49 +490,180 @@
     <div class="container about-grid">
 
       <div class="about-visual">
-        <svg viewBox="0 0 500 500" class="about-svg" aria-hidden="true">
-          <defs>
-            <linearGradient id="ab-grad" x1="0" x2="1" y1="0" y2="1">
-              <stop offset="0%" stop-color="#29c89e"/>
-              <stop offset="100%" stop-color="#043d36"/>
-            </linearGradient>
-            <radialGradient id="ab-core" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="#61f9b0" stop-opacity="0.65"/>
-              <stop offset="100%" stop-color="#61f9b0" stop-opacity="0"/>
-            </radialGradient>
-          </defs>
+        <div class="av-stage">
 
-          <circle class="ab-outer" cx="250" cy="250" r="240" fill="none" stroke-dasharray="4 8"/>
-          <circle class="ab-ring r1" cx="250" cy="250" r="180" fill="none" stroke="url(#ab-grad)" stroke-width="1.4" stroke-dasharray="6 6"/>
-          <circle class="ab-ring r2" cx="250" cy="250" r="130" fill="none" stroke-width="1.2"/>
-          <circle cx="250" cy="250" r="70" fill="url(#ab-core)"/>
-          <g class="ab-icon" transform="translate(250 250)">
-            <path d="M-30 -20 L-10 -20 L-10 -40 L10 -40 L10 -20 L30 -20 L30 0 L40 0 L20 25 L0 0 L-20 25 L-40 0 L-30 0 Z" fill="none" stroke-width="2" transform="scale(0.9)"/>
-          </g>
-          <g class="ab-particles">
-            <circle cx="120" cy="120" r="4"/>
-            <circle cx="380" cy="140" r="3"/>
-            <circle cx="420" cy="320" r="5"/>
-            <circle cx="80" cy="350" r="4"/>
-            <circle cx="200" cy="430" r="3"/>
-            <circle cx="350" cy="400" r="4"/>
-          </g>
-        </svg>
+          <!-- subtle dot pattern bg -->
+          <div class="av-bg-dots" aria-hidden="true"></div>
+
+          <!-- floating KPI chips around the composition -->
+          <div class="av-chip av-chip-tl" aria-hidden="true">
+            <span class="av-chip-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 17l6-6 4 4 6-9"/>
+                <path d="M14 6h6v6"/>
+              </svg>
+            </span>
+            <div class="av-chip-body">
+              <span class="av-chip-num">+24<small>%</small></span>
+              <span class="av-chip-label">معدل النمو</span>
+            </div>
+          </div>
+
+          <div class="av-chip av-chip-tr" aria-hidden="true">
+            <div class="av-chip-body">
+              <span class="av-chip-num">350<small>+</small></span>
+              <span class="av-chip-label">مشروع منجز</span>
+            </div>
+            <span class="av-chip-spark">
+              <svg viewBox="0 0 56 22" preserveAspectRatio="none">
+                <path d="M2,18 L10,15 L18,16 L26,11 L34,12 L42,6 L54,3"
+                      fill="none" stroke="#15a085" stroke-width="2"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="54" cy="3" r="2.2" fill="#15a085"/>
+              </svg>
+            </span>
+          </div>
+
+          <div class="av-chip av-chip-br" aria-hidden="true">
+            <span class="av-chip-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="3"/>
+                <path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M5 19l2-2M17 7l2-2"/>
+              </svg>
+            </span>
+            <div class="av-chip-body">
+              <span class="av-chip-num">7</span>
+              <span class="av-chip-label">قطاعات إستراتيجية</span>
+            </div>
+          </div>
+
+          <div class="av-chip av-chip-bl" aria-hidden="true">
+            <span class="av-chip-live">
+              <span class="av-chip-live-dot"></span>
+              LIVE
+            </span>
+            <div class="av-chip-body">
+              <span class="av-chip-num">24/7</span>
+              <span class="av-chip-label">دعم متواصل</span>
+            </div>
+          </div>
+
+          <!-- main orbital composition -->
+          <svg viewBox="0 0 500 500" class="av-svg" aria-hidden="true">
+            <defs>
+              <linearGradient id="av-arc-grad" x1="0" x2="1" y1="0" y2="1">
+                <stop offset="0%"  stop-color="#a8fbd0"/>
+                <stop offset="50%" stop-color="#29c89e"/>
+                <stop offset="100%" stop-color="#08584c"/>
+              </linearGradient>
+              <radialGradient id="av-core-glow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%"  stop-color="#61f9b0" stop-opacity="0.45"/>
+                <stop offset="55%" stop-color="#61f9b0" stop-opacity="0.10"/>
+                <stop offset="100%" stop-color="#61f9b0" stop-opacity="0"/>
+              </radialGradient>
+              <linearGradient id="av-edge-grad" x1="0" x2="1" y1="0" y2="0">
+                <stop offset="0%"  stop-color="#15a085" stop-opacity="0.8"/>
+                <stop offset="100%" stop-color="#15a085" stop-opacity="0.1"/>
+              </linearGradient>
+              <filter id="av-soft">
+                <feGaussianBlur stdDeviation="2"/>
+              </filter>
+            </defs>
+
+            <!-- ambient central glow -->
+            <circle cx="250" cy="250" r="170" fill="url(#av-core-glow)"/>
+
+            <!-- crosshair guides -->
+            <g class="av-guides">
+              <line x1="30"  y1="250" x2="470" y2="250"/>
+              <line x1="250" y1="30"  x2="250" y2="470"/>
+            </g>
+
+            <!-- 4 concentric orbits, distinct strokes -->
+            <g class="av-orbits">
+              <circle class="av-orbit av-o-1" cx="250" cy="250" r="230"/>
+              <circle class="av-orbit av-o-2" cx="250" cy="250" r="172"/>
+              <circle class="av-orbit av-o-3" cx="250" cy="250" r="115"/>
+              <circle class="av-orbit av-o-4" cx="250" cy="250" r="68"/>
+            </g>
+
+            <!-- rotating gradient arc on outer orbit -->
+            <circle class="av-arc" cx="250" cy="250" r="230"
+                    fill="none" stroke="url(#av-arc-grad)" stroke-width="3"
+                    stroke-dasharray="280 1200" stroke-linecap="round"/>
+
+            <!-- mid-orbit secondary arc (smaller, faster) -->
+            <circle class="av-arc-2" cx="250" cy="250" r="172"
+                    fill="none" stroke="#61f9b0" stroke-opacity="0.55" stroke-width="2"
+                    stroke-dasharray="120 900" stroke-linecap="round"/>
+
+            <!-- connecting edges hub → outer nodes -->
+            <g class="av-edges">
+              <line x1="250" y1="250" x2="475" y2="240"/>
+              <line x1="250" y1="250" x2="40"  y2="320"/>
+              <line x1="250" y1="250" x2="320" y2="35"/>
+              <line x1="250" y1="250" x2="370" y2="455"/>
+            </g>
+
+            <!-- outer ring nodes -->
+            <g class="av-nodes-outer">
+              <circle cx="475" cy="240" r="6"/>
+              <circle cx="320" cy="35"  r="5"/>
+              <circle cx="40"  cy="320" r="7"/>
+              <circle cx="370" cy="455" r="5"/>
+              <circle cx="22"  cy="180" r="4"/>
+              <circle cx="450" cy="380" r="4"/>
+            </g>
+
+            <!-- inner ring nodes -->
+            <g class="av-nodes-inner">
+              <circle cx="365" cy="138" r="4"/>
+              <circle cx="138" cy="365" r="4"/>
+              <circle cx="383" cy="350" r="4"/>
+              <circle cx="118" cy="158" r="4"/>
+            </g>
+
+            <!-- traveling pulses along edges (set in CSS via transform) -->
+            <g class="av-pulses">
+              <circle class="av-puls av-puls-1" cx="250" cy="250" r="4"/>
+              <circle class="av-puls av-puls-2" cx="250" cy="250" r="4"/>
+            </g>
+
+            <!-- expanding rings emanating from hub -->
+            <circle class="av-ring-out av-r-1" cx="250" cy="250" r="50" fill="none" stroke="#61f9b0" stroke-width="1.5"/>
+            <circle class="av-ring-out av-r-2" cx="250" cy="250" r="50" fill="none" stroke="#61f9b0" stroke-width="1.5"/>
+            <circle class="av-ring-out av-r-3" cx="250" cy="250" r="50" fill="none" stroke="#61f9b0" stroke-width="1.5"/>
+
+            <!-- central white hub disc -->
+            <circle class="av-hub" cx="250" cy="250" r="50" fill="#ffffff"/>
+            <circle cx="250" cy="250" r="50" fill="none" stroke="rgba(13,122,105,0.25)" stroke-width="1.5"/>
+
+            <!-- brand mark in hub -->
+            <g class="av-mark" transform="translate(250 250)">
+              <path d="M0 -28 L24 -14 L24 14 L0 28 L-24 14 L-24 -14 Z"
+                    fill="none" stroke="#0d7a69" stroke-width="2" stroke-linejoin="round"/>
+              <path d="M0 -16 L14 -8 L14 8 L0 16 L-14 8 L-14 -8 Z"
+                    fill="#61f9b0" opacity="0.9"/>
+              <circle cx="0" cy="0" r="3.2" fill="#022821"/>
+            </g>
+          </svg>
+
+        </div>
       </div>
 
       <div class="about-copy">
         <span class="eyebrow"><i></i> من نحن</span>
         <h2 class="section-title">
-          نصنع <span class="grad-text">المستقبل التقني</span> بأيدٍ سعودية متخصصة.
+          نجمع بين <span class="grad-text">الاستشارة</span> و<em>التقنية</em> في منصة واحدة.
         </h2>
         <p class="lead">
-          شركة ترسيه منصة تقنية متكاملة تجمع تحت سقفها سبعة قطاعات إستراتيجية، لتقدّم لعملائها حلولاً متقدمة عبر منظومة واحدة من الخبرات.
+          شركة ترسيه منصة استشارية تقنية متكاملة تجمع تحت سقفها سبعة قطاعات إستراتيجية، لتقدّم لعملائها حلولاً مدروسة ترفع كفاءة الأعمال وتُسرّع نمو نتائجها.
         </p>
         <ul class="about-list">
+          <li><span class="tick"></span> مستشارون وخبراء يصنعون قرارات مبنية على البيانات.</li>
           <li><span class="tick"></span> فريق هندسي متخصص في أحدث التقنيات.</li>
           <li><span class="tick"></span> منهجية تنفيذ مرنة وفق أفضل الممارسات.</li>
           <li><span class="tick"></span> دعم وصيانة على مدار الساعة.</li>
-          <li><span class="tick"></span> شراكات إستراتيجية مع كبار مزوّدي التقنية.</li>
         </ul>
         <div class="about-cta">
           <a href="#sectors" class="btn btn-primary sm">قطاعاتنا</a>
@@ -378,19 +712,85 @@
 
         <svg class="orbit-sweep" viewBox="-260 -260 520 520" aria-hidden="true">
           <defs>
-            <linearGradient id="sweep-grad" x1="0" x2="1" y1="0" y2="0">
-              <stop offset="0%" stop-color="#61f9b0" stop-opacity="0"/>
-              <stop offset="100%" stop-color="#15a085" stop-opacity="0.9"/>
+            <linearGradient id="sweep-beam" x1="0" x2="1" y1="0" y2="0">
+              <stop offset="0%"  stop-color="#15a085" stop-opacity="0"/>
+              <stop offset="35%" stop-color="#29c89e" stop-opacity="0.45"/>
+              <stop offset="80%" stop-color="#61f9b0" stop-opacity="0.95"/>
+              <stop offset="100%" stop-color="#a8fbd0" stop-opacity="1"/>
             </linearGradient>
+            <radialGradient id="head-glow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%"  stop-color="#a8fbd0" stop-opacity="0.95"/>
+              <stop offset="55%" stop-color="#61f9b0" stop-opacity="0.35"/>
+              <stop offset="100%" stop-color="#61f9b0" stop-opacity="0"/>
+            </radialGradient>
+            <linearGradient id="coverage-grad" x1="0" x2="1" y1="0" y2="0">
+              <stop offset="0%"  stop-color="#61f9b0" stop-opacity="0"/>
+              <stop offset="100%" stop-color="#61f9b0" stop-opacity="0.55"/>
+            </linearGradient>
+            <filter id="beam-glow">
+              <feGaussianBlur stdDeviation="4"/>
+            </filter>
           </defs>
-          <g class="sweep-arm">
-            <line x1="0" y1="0" x2="230" y2="0" stroke-width="2"/>
-            <circle cx="230" cy="0" r="6"/>
-            <circle cx="230" cy="0" r="14" opacity="0.25"/>
+
+          <!-- BACKDROP: orbits + crosshair guides + ticks + center mark -->
+          <g class="orbit-backdrop">
+            <!-- crosshair guides -->
+            <line class="orbit-cross" x1="-258" y1="0" x2="258" y2="0"/>
+            <line class="orbit-cross" x1="0" y1="-258" x2="0" y2="258"/>
+
+            <!-- 3 concentric orbits -->
+            <circle class="orbit-outer"  r="240" fill="none"/>
+            <circle class="orbit-middle" r="180" fill="none"/>
+            <circle class="orbit-inner"  r="120" fill="none"/>
+
+            <!-- 12 compass tick marks every 30° -->
+            <g class="orbit-ticks">
+              <line x1="244" y1="0" x2="256" y2="0"/>
+              <line x1="244" y1="0" x2="256" y2="0" transform="rotate(30)"/>
+              <line x1="244" y1="0" x2="256" y2="0" transform="rotate(60)"/>
+              <line x1="244" y1="0" x2="256" y2="0" transform="rotate(90)"/>
+              <line x1="244" y1="0" x2="256" y2="0" transform="rotate(120)"/>
+              <line x1="244" y1="0" x2="256" y2="0" transform="rotate(150)"/>
+              <line x1="244" y1="0" x2="256" y2="0" transform="rotate(180)"/>
+              <line x1="244" y1="0" x2="256" y2="0" transform="rotate(210)"/>
+              <line x1="244" y1="0" x2="256" y2="0" transform="rotate(240)"/>
+              <line x1="244" y1="0" x2="256" y2="0" transform="rotate(270)"/>
+              <line x1="244" y1="0" x2="256" y2="0" transform="rotate(300)"/>
+              <line x1="244" y1="0" x2="256" y2="0" transform="rotate(330)"/>
+            </g>
+
+            <!-- center reference marker -->
+            <circle class="orbit-center-mark" cx="0" cy="0" r="3"/>
           </g>
-          <circle class="orbit-outer" r="240" fill="none" stroke-dasharray="2 6"/>
-          <circle class="orbit-middle" r="180" fill="none"/>
-          <circle class="orbit-inner" r="120" fill="none" stroke-dasharray="1 4"/>
+
+          <!-- SWEEP ARM with trailing coverage + glowing head -->
+          <g class="sweep-arm">
+            <!-- trailing coverage arc behind the beam -->
+            <path class="sweep-coverage"
+                  d="M110,-190.5 A220,220 0 0,1 220,0"
+                  fill="none"
+                  stroke="url(#coverage-grad)"
+                  stroke-width="6"
+                  stroke-linecap="round"/>
+
+            <!-- main beam line -->
+            <line class="sweep-beam"
+                  x1="0" y1="0" x2="218" y2="0"
+                  stroke="url(#sweep-beam)"
+                  stroke-width="4"
+                  stroke-linecap="round"
+                  filter="url(#beam-glow)"/>
+
+            <!-- head soft glow disc -->
+            <circle class="sweep-head-glow" cx="220" cy="0" r="32" fill="url(#head-glow)"/>
+
+            <!-- head pulse ring -->
+            <circle class="sweep-head-ring" cx="220" cy="0" r="14"
+                    fill="none" stroke="#61f9b0" stroke-width="1.5" stroke-opacity="0.7"/>
+
+            <!-- head core dot -->
+            <circle class="sweep-head-dot" cx="220" cy="0" r="6" fill="#a8fbd0"/>
+          </g>
         </svg>
 
         <ul class="orbit-nodes">
@@ -474,7 +874,7 @@
     </div>
   </section>
 
-  <!-- ============ FEATURES ============ -->
+  <!-- ============ FEATURES (mozn-style scroll-pinned) ============ -->
   <section class="features" id="features">
     <div class="container">
       <header class="sec-head center">
@@ -483,102 +883,494 @@
         <p class="lead">منظومة هندسية متكاملة وفريق نخبة، ومنهجية تنفيذ مرنة وفق أفضل الممارسات.</p>
       </header>
 
-      <div class="feat-grid">
-        <article class="feat-card">
-          <div class="feat-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-              <path d="M12 2 L20 7 L20 17 L12 22 L4 17 L4 7 Z"/>
-              <path d="M12 8 L16 10.5 L16 15.5 L12 18 L8 15.5 L8 10.5 Z"/>
-            </svg>
-          </div>
-          <h3>منظومة متكاملة</h3>
-          <p>سبعة قطاعات تعمل بتناغم لتغطية كل احتياجاتك التقنية والتشغيلية تحت سقف واحد.</p>
-          <span class="feat-edge"></span>
-        </article>
+      <div class="feat-scroll">
 
-        <article class="feat-card">
-          <div class="feat-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-              <path d="M3 12l4-4 4 4 6-6 4 4"/>
-              <path d="M3 20h18"/>
-            </svg>
-          </div>
-          <h3>أداء قابل للقياس</h3>
-          <p>منهجية تنفيذ تعتمد على مؤشرات أداء واضحة وتقارير شفافة لكل مرحلة من مشروعك.</p>
-          <span class="feat-edge"></span>
-        </article>
+        <!-- LEFT: scrolling articles -->
+        <div class="feat-content">
 
-        <article class="feat-card">
-          <div class="feat-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-              <path d="M12 2L4 6v6c0 5 3.5 9 8 10 4.5-1 8-5 8-10V6z"/>
-              <path d="M9 12l2 2 4-4"/>
-            </svg>
-          </div>
-          <h3>أمان وثقة</h3>
-          <p>التزام بأعلى معايير حماية البيانات والخصوصية، وفق أفضل ممارسات الصناعة.</p>
-          <span class="feat-edge"></span>
-        </article>
+          <article class="feat-block is-active" data-index="0">
+            <div class="feat-meta">
+              <span class="feat-num">01</span>
+              <span class="feat-tag">ARCHITECTURE</span>
+            </div>
+            <h3>منظومة متكاملة</h3>
+            <p>سبعة قطاعات تعمل بتناغم لتغطية كل احتياجاتك التقنية والتشغيلية تحت سقف واحد، عبر منهجية موحّدة تربط الإستراتيجية بالتنفيذ.</p>
+            <ul class="feat-bullets">
+              <li>سبعة قطاعات إستراتيجية</li>
+              <li>منهجية تكامل موحّدة</li>
+              <li>دورة حياة المشروع كاملةً</li>
+            </ul>
+          </article>
 
-        <article class="feat-card">
-          <div class="feat-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-              <circle cx="12" cy="12" r="9"/>
-              <path d="M12 7v5l3 2"/>
-            </svg>
-          </div>
-          <h3>دعم على مدار الساعة</h3>
-          <p>فريق دعم استباقي يراقب أنظمتك ويتدخل فورياً لضمان استمرارية الأعمال.</p>
-          <span class="feat-edge"></span>
-        </article>
+          <article class="feat-block" data-index="1">
+            <div class="feat-meta">
+              <span class="feat-num">02</span>
+              <span class="feat-tag">ANALYTICS</span>
+            </div>
+            <h3>أداء قابل للقياس</h3>
+            <p>منهجية تنفيذ تعتمد على مؤشرات أداء واضحة وتقارير شفافة لكل مرحلة من مشروعك، مع لوحات قياس حيّة تتبع التقدّم لحظياً.</p>
+            <ul class="feat-bullets">
+              <li>مؤشرات أداء معتمدة (KPIs)</li>
+              <li>تقارير دورية وشفّافة</li>
+              <li>لوحة بيانات تنفيذية حيّة</li>
+            </ul>
+          </article>
 
-        <article class="feat-card">
-          <div class="feat-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-              <path d="M4 17l6-6 4 4 6-9"/>
-              <path d="M14 8h6v6"/>
-            </svg>
-          </div>
-          <h3>نمو قابل للتوسّع</h3>
-          <p>حلول مرنة تنمو مع أعمالك، مبنية على بنية تحتية حديثة قابلة للتوسّع.</p>
-          <span class="feat-edge"></span>
-        </article>
+          <article class="feat-block" data-index="2">
+            <div class="feat-meta">
+              <span class="feat-num">03</span>
+              <span class="feat-tag">SECURITY</span>
+            </div>
+            <h3>أمان وثقة</h3>
+            <p>التزام بأعلى معايير حماية البيانات والخصوصية، وفق أفضل ممارسات الصناعة وضوابط الجهات التنظيمية المحلية والدولية.</p>
+            <ul class="feat-bullets">
+              <li>تشفير شامل للبيانات</li>
+              <li>توافق مع ISO و SOC</li>
+              <li>مراقبة استباقية للتهديدات</li>
+            </ul>
+          </article>
 
-        <article class="feat-card">
-          <div class="feat-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-              <circle cx="9" cy="8" r="3"/>
-              <path d="M3 21v-2a6 6 0 0 1 12 0v2"/>
-              <circle cx="17" cy="9" r="2"/>
-              <path d="M21 21v-1a4 4 0 0 0-4-4"/>
-            </svg>
+          <article class="feat-block" data-index="3">
+            <div class="feat-meta">
+              <span class="feat-num">04</span>
+              <span class="feat-tag">OPERATIONS</span>
+            </div>
+            <h3>دعم على مدار الساعة</h3>
+            <p>فريق دعم استباقي يراقب أنظمتك ويتدخل فورياً لضمان استمرارية الأعمال، مع اتفاقيات SLA موثّقة واستجابة بمستوى عالمي.</p>
+            <ul class="feat-bullets">
+              <li>استجابة فورية 24/7</li>
+              <li>مراقبة استباقية للأنظمة</li>
+              <li>SLA موثّقة وشفّافة</li>
+            </ul>
+          </article>
+
+          <article class="feat-block" data-index="4">
+            <div class="feat-meta">
+              <span class="feat-num">05</span>
+              <span class="feat-tag">SCALABILITY</span>
+            </div>
+            <h3>نمو قابل للتوسّع</h3>
+            <p>حلول مرنة تنمو مع أعمالك، مبنية على بنية تحتية سحابية حديثة قابلة للتوسّع تتكيّف مع متطلباتك المستقبلية بسلاسة.</p>
+            <ul class="feat-bullets">
+              <li>بنية سحابية مرنة</li>
+              <li>توسيع تلقائي حسب الطلب</li>
+              <li>تكاليف محسوبة بدقة</li>
+            </ul>
+          </article>
+
+          <article class="feat-block" data-index="5">
+            <div class="feat-meta">
+              <span class="feat-num">06</span>
+              <span class="feat-tag">TALENT</span>
+            </div>
+            <h3>فريق نخبة</h3>
+            <p>مهندسون ومستشارون ذوو خبرة عميقة في القطاعات الحكومية والخاصة، بشهادات متقدّمة وخبرة ميدانية في مشاريع إستراتيجية.</p>
+            <ul class="feat-bullets">
+              <li>مهندسون ومستشارون معتمدون</li>
+              <li>خبرة حكومية وخاصة</li>
+              <li>تدريب وتأهيل مستمر</li>
+            </ul>
+          </article>
+
+        </div>
+
+        <!-- RIGHT: sticky panel with morphing visuals -->
+        <div class="feat-visual" aria-hidden="true">
+          <div class="feat-stack">
+
+            <!-- CARD 0 :: Integrated System (hub + 7 spokes) -->
+            <div class="feat-card is-active" data-card="0">
+              <div class="fc-frame">
+                <div class="fc-corner-tl"><span class="fc-tag">SYS / 01</span></div>
+                <div class="fc-corner-tr"><span class="fc-live"><span class="fc-live-dot"></span>LINKED</span></div>
+                <div class="fc-corner-bl"><span class="fc-meta">7 / 7 sectors</span></div>
+
+                <div class="fc0-canvas">
+                  <svg class="fc0-svg" viewBox="0 0 400 400" preserveAspectRatio="xMidYMid meet">
+                    <defs>
+                      <radialGradient id="fc0-glow" cx="50%" cy="50%" r="50%">
+                        <stop offset="0%" stop-color="#61f9b0" stop-opacity="0.30"/>
+                        <stop offset="100%" stop-color="#61f9b0" stop-opacity="0"/>
+                      </radialGradient>
+                    </defs>
+                    <!-- ambient glow under hub -->
+                    <circle cx="200" cy="200" r="150" fill="url(#fc0-glow)"/>
+                    <!-- outer orbit -->
+                    <circle cx="200" cy="200" r="148" fill="none" stroke="rgba(13,122,105,.18)" stroke-dasharray="2 7"/>
+                    <!-- spoke edges hub→chip positions -->
+                    <g class="fc0-edges" stroke="rgba(13,122,105,.32)" stroke-width="1.2" stroke-dasharray="3 5">
+                      <line x1="200" y1="200" x2="200" y2="52"/>
+                      <line x1="200" y1="200" x2="328" y2="108"/>
+                      <line x1="200" y1="200" x2="348" y2="240"/>
+                      <line x1="200" y1="200" x2="264" y2="340"/>
+                      <line x1="200" y1="200" x2="136" y2="340"/>
+                      <line x1="200" y1="200" x2="52"  y2="240"/>
+                      <line x1="200" y1="200" x2="72"  y2="108"/>
+                    </g>
+                    <!-- pulse rings -->
+                    <circle class="fc0-pulse"   cx="200" cy="200" r="42" fill="none" stroke="#61f9b0" stroke-width="1.5"/>
+                    <circle class="fc0-pulse fc0-pulse-2" cx="200" cy="200" r="42" fill="none" stroke="#61f9b0" stroke-width="1.5"/>
+                    <!-- central hub disc -->
+                    <circle cx="200" cy="200" r="44" fill="#ffffff" stroke="rgba(13,122,105,.28)" stroke-width="1.5"/>
+                    <g class="fc0-hub-mark" transform="translate(200 200)">
+                      <path d="M0 -22 L19 -11 L19 11 L0 22 L-19 11 L-19 -11 Z" fill="none" stroke="#0d7a69" stroke-width="2"/>
+                      <path d="M0 -12 L11 -6 L11 6 L0 12 L-11 6 L-11 -6 Z" fill="#61f9b0" opacity="0.9"/>
+                      <circle cx="0" cy="0" r="3" fill="#022821"/>
+                    </g>
+                  </svg>
+
+                  <!-- Arabic sector chips as HTML overlay -->
+                  <span class="fc0-chip" style="--cx:50%;  --cy:13%;">تقنية</span>
+                  <span class="fc0-chip" style="--cx:82%;  --cy:27%;">صيانة</span>
+                  <span class="fc0-chip" style="--cx:87%;  --cy:60%;">استشارات</span>
+                  <span class="fc0-chip" style="--cx:66%;  --cy:85%;">مقاولات</span>
+                  <span class="fc0-chip" style="--cx:34%;  --cy:85%;">دعاية</span>
+                  <span class="fc0-chip" style="--cx:13%;  --cy:60%;">توريدات</span>
+                  <span class="fc0-chip" style="--cx:18%;  --cy:27%;">تدريب</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- CARD 1 :: KPI Dashboard -->
+            <div class="feat-card" data-card="1">
+              <div class="fc-frame">
+                <div class="fc-corner-tl"><span class="fc-tag">KPI / 02</span></div>
+                <div class="fc-corner-tr"><span class="fc-live"><span class="fc-live-dot"></span>LIVE</span></div>
+                <div class="fc-corner-bl"><span class="fc-meta">updated just now</span></div>
+
+                <div class="fc1-grid">
+                  <div class="fc1-kpi">
+                    <span class="fc1-kpi-label">Performance</span>
+                    <span class="fc1-kpi-val" dir="ltr">+24<small>%</small></span>
+                    <svg class="fc1-kpi-spark" viewBox="0 0 60 20" preserveAspectRatio="none">
+                      <path d="M0,16 L10,14 L20,11 L30,8 L40,6 L50,3 L60,2"
+                            fill="none" stroke="#15a085" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                  </div>
+                  <div class="fc1-kpi">
+                    <span class="fc1-kpi-label">Efficiency</span>
+                    <span class="fc1-kpi-val" dir="ltr">+12<small>%</small></span>
+                    <svg class="fc1-kpi-spark" viewBox="0 0 60 20" preserveAspectRatio="none">
+                      <path d="M0,14 L10,12 L20,13 L30,9 L40,8 L50,6 L60,4"
+                            fill="none" stroke="#15a085" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                  </div>
+                  <div class="fc1-kpi">
+                    <span class="fc1-kpi-label">Quality</span>
+                    <span class="fc1-kpi-val" dir="ltr">+8<small>%</small></span>
+                    <svg class="fc1-kpi-spark" viewBox="0 0 60 20" preserveAspectRatio="none">
+                      <path d="M0,14 L10,11 L20,12 L30,10 L40,7 L50,7 L60,5"
+                            fill="none" stroke="#15a085" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                  </div>
+                </div>
+
+                <div class="fc1-chart-wrap">
+                  <svg class="fc1-chart" viewBox="0 0 400 150" preserveAspectRatio="none">
+                    <defs>
+                      <linearGradient id="fc1-area" x1="0" x2="0" y1="0" y2="1">
+                        <stop offset="0%"  stop-color="#61f9b0" stop-opacity="0.40"/>
+                        <stop offset="100%" stop-color="#61f9b0" stop-opacity="0"/>
+                      </linearGradient>
+                    </defs>
+                    <g class="fc1-grid-lines" stroke="rgba(13,122,105,.10)" stroke-dasharray="2 6">
+                      <line x1="0" y1="40"  x2="400" y2="40"/>
+                      <line x1="0" y1="80"  x2="400" y2="80"/>
+                      <line x1="0" y1="120" x2="400" y2="120"/>
+                    </g>
+                    <path class="fc1-area" d="M0,110 L60,90 L120,95 L180,70 L240,75 L300,45 L360,30 L400,20 L400,150 L0,150 Z" fill="url(#fc1-area)"/>
+                    <path class="fc1-line" d="M0,110 L60,90 L120,95 L180,70 L240,75 L300,45 L360,30 L400,20"
+                          fill="none" stroke="#15a085" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <g class="fc1-pts">
+                      <circle cx="180" cy="70" r="3.5" fill="#15a085"/>
+                      <circle cx="300" cy="45" r="3.5" fill="#15a085"/>
+                      <circle cx="400" cy="20" r="5"   fill="#61f9b0"/>
+                    </g>
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <!-- CARD 2 :: Security Shield -->
+            <div class="feat-card" data-card="2">
+              <div class="fc-frame">
+                <div class="fc-corner-tl"><span class="fc-tag">SEC / 03</span></div>
+                <div class="fc-corner-tr"><span class="fc-live fc-verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="6 12 10 16 18 8"/></svg>VERIFIED</span></div>
+                <div class="fc-corner-bl"><span class="fc-meta">AES-256 · ISO 27001</span></div>
+
+                <svg class="fc-svg" viewBox="0 0 400 400">
+                  <defs>
+                    <radialGradient id="fc2-glow" cx="50%" cy="50%" r="50%">
+                      <stop offset="0%" stop-color="#61f9b0" stop-opacity="0.30"/>
+                      <stop offset="100%" stop-color="#61f9b0" stop-opacity="0"/>
+                    </radialGradient>
+                    <linearGradient id="fc2-shield" x1="0" x2="0" y1="0" y2="1">
+                      <stop offset="0%" stop-color="#ffffff"/>
+                      <stop offset="100%" stop-color="#f5fbf8"/>
+                    </linearGradient>
+                  </defs>
+                  <circle cx="200" cy="200" r="170" fill="url(#fc2-glow)"/>
+                  <!-- protective rings -->
+                  <circle class="fc2-ring fc2-ring-1" cx="200" cy="200" r="100" fill="none" stroke="rgba(13,122,105,.45)" stroke-dasharray="3 6"/>
+                  <circle class="fc2-ring fc2-ring-2" cx="200" cy="200" r="140" fill="none" stroke="rgba(13,122,105,.30)" stroke-dasharray="2 8"/>
+                  <circle class="fc2-ring fc2-ring-3" cx="200" cy="200" r="180" fill="none" stroke="rgba(13,122,105,.18)"/>
+                  <!-- shield body -->
+                  <path d="M200 110 L260 130 L260 200 C260 240 230 270 200 285 C170 270 140 240 140 200 L140 130 Z"
+                        fill="url(#fc2-shield)" stroke="rgba(13,122,105,.30)" stroke-width="1.5"/>
+                  <!-- checkmark -->
+                  <polyline points="172,200 192,220 232,180" fill="none" stroke="#15a085" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+                  <!-- floating mini-locks -->
+                  <g class="fc2-locks">
+                    <g transform="translate(80 120)">
+                      <rect x="-12" y="-8" width="24" height="18" rx="3" fill="#ffffff" stroke="rgba(13,122,105,.35)"/>
+                      <path d="M-7 -8 L-7 -14 A7 7 0 0 1 7 -14 L7 -8" fill="none" stroke="rgba(13,122,105,.35)" stroke-width="1.5"/>
+                    </g>
+                    <g transform="translate(320 280)">
+                      <rect x="-12" y="-8" width="24" height="18" rx="3" fill="#ffffff" stroke="rgba(13,122,105,.35)"/>
+                      <path d="M-7 -8 L-7 -14 A7 7 0 0 1 7 -14 L7 -8" fill="none" stroke="rgba(13,122,105,.35)" stroke-width="1.5"/>
+                    </g>
+                  </g>
+                </svg>
+              </div>
+            </div>
+
+            <!-- CARD 3 :: 24/7 Support -->
+            <div class="feat-card" data-card="3">
+              <div class="fc-frame">
+                <div class="fc-corner-tl"><span class="fc-tag">OPS / 04</span></div>
+                <div class="fc-corner-tr"><span class="fc-live"><span class="fc-live-dot"></span>ONLINE</span></div>
+                <div class="fc-corner-bl"><span class="fc-meta">avg. response · 48s</span></div>
+
+                <div class="fc3-canvas">
+                  <svg class="fc3-svg" viewBox="0 0 400 400" preserveAspectRatio="xMidYMid meet">
+                    <defs>
+                      <radialGradient id="fc3-core" cx="50%" cy="50%" r="50%">
+                        <stop offset="0%"  stop-color="#61f9b0" stop-opacity="0.28"/>
+                        <stop offset="100%" stop-color="#61f9b0" stop-opacity="0"/>
+                      </radialGradient>
+                    </defs>
+                    <!-- core glow -->
+                    <circle cx="200" cy="200" r="140" fill="url(#fc3-core)"/>
+                    <!-- outer dial -->
+                    <circle cx="200" cy="200" r="150" fill="none" stroke="rgba(13,122,105,.20)" stroke-dasharray="2 8"/>
+                    <!-- animated progress arc -->
+                    <circle class="fc3-progress" cx="200" cy="200" r="150" fill="none"
+                            stroke="#15a085" stroke-width="3" stroke-linecap="round"
+                            stroke-dasharray="942" transform="rotate(-90 200 200)"/>
+                    <!-- 24 tick marks -->
+                    <g class="fc3-ticks" stroke="rgba(13,122,105,.55)" stroke-width="1.5" stroke-linecap="round">
+                      <line x1="200" y1="34" x2="200" y2="46"/>
+                      <line x1="200" y1="34" x2="200" y2="46" transform="rotate(15 200 200)"/>
+                      <line x1="200" y1="34" x2="200" y2="46" transform="rotate(30 200 200)"/>
+                      <line x1="200" y1="34" x2="200" y2="46" transform="rotate(45 200 200)"/>
+                      <line x1="200" y1="34" x2="200" y2="46" transform="rotate(60 200 200)"/>
+                      <line x1="200" y1="34" x2="200" y2="46" transform="rotate(75 200 200)"/>
+                      <line x1="200" y1="34" x2="200" y2="46" transform="rotate(90 200 200)"/>
+                      <line x1="200" y1="34" x2="200" y2="46" transform="rotate(105 200 200)"/>
+                      <line x1="200" y1="34" x2="200" y2="46" transform="rotate(120 200 200)"/>
+                      <line x1="200" y1="34" x2="200" y2="46" transform="rotate(135 200 200)"/>
+                      <line x1="200" y1="34" x2="200" y2="46" transform="rotate(150 200 200)"/>
+                      <line x1="200" y1="34" x2="200" y2="46" transform="rotate(165 200 200)"/>
+                      <line x1="200" y1="34" x2="200" y2="46" transform="rotate(180 200 200)"/>
+                      <line x1="200" y1="34" x2="200" y2="46" transform="rotate(195 200 200)"/>
+                      <line x1="200" y1="34" x2="200" y2="46" transform="rotate(210 200 200)"/>
+                      <line x1="200" y1="34" x2="200" y2="46" transform="rotate(225 200 200)"/>
+                      <line x1="200" y1="34" x2="200" y2="46" transform="rotate(240 200 200)"/>
+                      <line x1="200" y1="34" x2="200" y2="46" transform="rotate(255 200 200)"/>
+                      <line x1="200" y1="34" x2="200" y2="46" transform="rotate(270 200 200)"/>
+                      <line x1="200" y1="34" x2="200" y2="46" transform="rotate(285 200 200)"/>
+                      <line x1="200" y1="34" x2="200" y2="46" transform="rotate(300 200 200)"/>
+                      <line x1="200" y1="34" x2="200" y2="46" transform="rotate(315 200 200)"/>
+                      <line x1="200" y1="34" x2="200" y2="46" transform="rotate(330 200 200)"/>
+                      <line x1="200" y1="34" x2="200" y2="46" transform="rotate(345 200 200)"/>
+                    </g>
+                    <!-- center disc -->
+                    <circle cx="200" cy="200" r="78" fill="#ffffff" stroke="rgba(13,122,105,.22)" stroke-width="1.5"/>
+                    <text x="200" y="196" text-anchor="middle" font-family="Cairo" font-size="36" font-weight="900" fill="#0a2823">24/7</text>
+                    <text x="200" y="222" text-anchor="middle" font-family="Cairo" font-size="10" font-weight="800" fill="#15a085" letter-spacing="3">ONLINE</text>
+                  </svg>
+
+                  <!-- Arabic status pills as HTML overlay (so Arabic renders cleanly) -->
+                  <span class="fc3-pill fc3-pill-tr"><span class="fc3-pill-dot"></span>دعم نشط</span>
+                  <span class="fc3-pill fc3-pill-tl"><span class="fc3-pill-dot"></span>مراقبة فورية</span>
+                  <span class="fc3-pill fc3-pill-br"><span class="fc3-pill-dot"></span>SLA مفعّل</span>
+                  <span class="fc3-pill fc3-pill-bl"><span class="fc3-pill-dot"></span>استجابة فورية</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- CARD 4 :: Growth Bars -->
+            <div class="feat-card" data-card="4">
+              <div class="fc-frame">
+                <div class="fc-corner-tl"><span class="fc-tag">GROWTH / 05</span></div>
+                <div class="fc-corner-tr"><span class="fc-live fc-up"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="6 14 12 8 18 14"/></svg>+310%</span></div>
+                <div class="fc-corner-bl"><span class="fc-meta">last 12 quarters</span></div>
+
+                <svg class="fc-svg" viewBox="0 0 400 320">
+                  <defs>
+                    <linearGradient id="fc4-bar" x1="0" x2="0" y1="0" y2="1">
+                      <stop offset="0%" stop-color="#61f9b0" stop-opacity="0.95"/>
+                      <stop offset="100%" stop-color="#15a085" stop-opacity="0.20"/>
+                    </linearGradient>
+                  </defs>
+                  <!-- grid -->
+                  <g class="fc4-grid" stroke="rgba(13,122,105,.10)" stroke-dasharray="2 6">
+                    <line x1="20" y1="80" x2="380" y2="80"/>
+                    <line x1="20" y1="140" x2="380" y2="140"/>
+                    <line x1="20" y1="200" x2="380" y2="200"/>
+                    <line x1="20" y1="260" x2="380" y2="260"/>
+                  </g>
+                  <!-- 8 bars rising -->
+                  <g class="fc4-bars">
+                    <rect x="40"  y="220" width="24" height="60" rx="3" fill="url(#fc4-bar)"/>
+                    <rect x="84"  y="200" width="24" height="80" rx="3" fill="url(#fc4-bar)"/>
+                    <rect x="128" y="170" width="24" height="110" rx="3" fill="url(#fc4-bar)"/>
+                    <rect x="172" y="180" width="24" height="100" rx="3" fill="url(#fc4-bar)"/>
+                    <rect x="216" y="140" width="24" height="140" rx="3" fill="url(#fc4-bar)"/>
+                    <rect x="260" y="110" width="24" height="170" rx="3" fill="url(#fc4-bar)"/>
+                    <rect x="304" y="75"  width="24" height="205" rx="3" fill="url(#fc4-bar)"/>
+                    <rect x="348" y="40"  width="24" height="240" rx="3" fill="url(#fc4-bar)"/>
+                  </g>
+                  <!-- ascending arrow over bars -->
+                  <path class="fc4-arrow"
+                        d="M50,250 Q150,210 220,160 T380,55"
+                        fill="none" stroke="#15a085" stroke-width="3" stroke-linecap="round"
+                        stroke-dasharray="5 6"/>
+                  <polygon class="fc4-arrow-head" points="362,40 388,42 372,68" fill="#15a085"/>
+                </svg>
+              </div>
+            </div>
+
+            <!-- CARD 5 :: Elite Team Network -->
+            <div class="feat-card" data-card="5">
+              <div class="fc-frame">
+                <div class="fc-corner-tl"><span class="fc-tag">TEAM / 06</span></div>
+                <div class="fc-corner-tr"><span class="fc-live"><span class="fc-live-dot"></span>ACTIVE</span></div>
+                <div class="fc-corner-bl"><span class="fc-meta">120+ certified experts</span></div>
+
+                <svg class="fc-svg" viewBox="0 0 400 400">
+                  <defs>
+                    <radialGradient id="fc5-glow" cx="50%" cy="50%" r="50%">
+                      <stop offset="0%" stop-color="#61f9b0" stop-opacity="0.25"/>
+                      <stop offset="100%" stop-color="#61f9b0" stop-opacity="0"/>
+                    </radialGradient>
+                  </defs>
+                  <circle cx="200" cy="200" r="180" fill="url(#fc5-glow)"/>
+                  <!-- connections -->
+                  <g class="fc5-edges" stroke="rgba(13,122,105,.30)" stroke-width="1.2" stroke-dasharray="3 5">
+                    <line x1="200" y1="200" x2="100" y2="100"/>
+                    <line x1="200" y1="200" x2="300" y2="100"/>
+                    <line x1="200" y1="200" x2="80"  y2="280"/>
+                    <line x1="200" y1="200" x2="320" y2="280"/>
+                    <line x1="200" y1="200" x2="200" y2="60"/>
+                    <line x1="100" y1="100" x2="300" y2="100"/>
+                    <line x1="100" y1="100" x2="80"  y2="280"/>
+                    <line x1="300" y1="100" x2="320" y2="280"/>
+                    <line x1="80"  y1="280" x2="320" y2="280"/>
+                  </g>
+                  <!-- expert nodes with role pills -->
+                  <g class="fc5-nodes">
+                    <g transform="translate(100 100)">
+                      <circle r="22" fill="#ffffff" stroke="rgba(13,122,105,.25)" stroke-width="1.5"/>
+                      <text y="5" text-anchor="middle" font-family="Cairo" font-size="11" font-weight="800" fill="#15a085">CTO</text>
+                    </g>
+                    <g transform="translate(300 100)">
+                      <circle r="22" fill="#ffffff" stroke="rgba(13,122,105,.25)" stroke-width="1.5"/>
+                      <text y="5" text-anchor="middle" font-family="Cairo" font-size="11" font-weight="800" fill="#15a085">PM</text>
+                    </g>
+                    <g transform="translate(80 280)">
+                      <circle r="22" fill="#ffffff" stroke="rgba(13,122,105,.25)" stroke-width="1.5"/>
+                      <text y="5" text-anchor="middle" font-family="Cairo" font-size="11" font-weight="800" fill="#15a085">DEV</text>
+                    </g>
+                    <g transform="translate(320 280)">
+                      <circle r="22" fill="#ffffff" stroke="rgba(13,122,105,.25)" stroke-width="1.5"/>
+                      <text y="5" text-anchor="middle" font-family="Cairo" font-size="11" font-weight="800" fill="#15a085">QA</text>
+                    </g>
+                    <g transform="translate(200 60)">
+                      <circle r="20" fill="#ffffff" stroke="rgba(13,122,105,.25)" stroke-width="1.5"/>
+                      <text y="4" text-anchor="middle" font-family="Cairo" font-size="10" font-weight="800" fill="#15a085">UX</text>
+                    </g>
+                  </g>
+                  <!-- center hub: ELITE badge -->
+                  <circle cx="200" cy="200" r="46" fill="#ffffff" stroke="rgba(13,122,105,.30)" stroke-width="1.5"/>
+                  <text x="200" y="195" text-anchor="middle" font-family="Cairo" font-size="14" font-weight="900" fill="#0a2823">ELITE</text>
+                  <text x="200" y="215" text-anchor="middle" font-family="Cairo" font-size="9" font-weight="700" fill="#15a085" letter-spacing="2">TEAM</text>
+                </svg>
+              </div>
+            </div>
+
           </div>
-          <h3>فريق نخبة</h3>
-          <p>مهندسون ومستشارون ذوو خبرة عميقة في القطاعات الحكومية والخاصة على حدٍ سواء.</p>
-          <span class="feat-edge"></span>
-        </article>
+        </div>
+
       </div>
     </div>
   </section>
 
-  <!-- ============ STATS ============ -->
-  <section class="stats">
-    <div class="container stats-grid">
-      <div class="stat">
-        <strong data-count="120">0</strong><span>+</span>
-        <p>عميل وثق بنا</p>
-      </div>
-      <div class="stat">
-        <strong data-count="350">0</strong><span>+</span>
-        <p>مشروع منجز</p>
-      </div>
-      <div class="stat">
-        <strong data-count="7">0</strong>
-        <p>قطاعات تقنية</p>
-      </div>
-      <div class="stat">
-        <strong data-count="24">0</strong><span>/7</span>
-        <p>دعم متواصل</p>
+  <!-- ============ STATS (financial card style) ============ -->
+  <section class="stats" id="stats">
+    <div class="container">
+      <header class="sec-head center">
+        <span class="eyebrow"><i></i> أرقام تتكلم</span>
+        <h2 class="section-title">نتائج <span class="grad-text">مدروسة</span> وأرقام لا تكذب.</h2>
+        <p class="lead">منظومة استشارية وتقنية بمؤشرات أداء موثّقة عبر مشاريع حقيقية.</p>
+      </header>
+
+      <div class="stats-grid">
+        <article class="stat-card">
+          <span class="stat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="9" cy="8" r="4"/>
+              <path d="M3 21v-2a6 6 0 0 1 12 0v2"/>
+              <circle cx="17" cy="9" r="3"/>
+              <path d="M22 21v-1a4 4 0 0 0-3-3.87"/>
+            </svg>
+          </span>
+          <div class="stat-num">
+            <strong data-count="120">0</strong><em>+</em>
+          </div>
+          <p class="stat-label">عميل وثق بنا</p>
+        </article>
+
+        <article class="stat-card">
+          <span class="stat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 11l3 3L22 4"/>
+              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+            </svg>
+          </span>
+          <div class="stat-num">
+            <strong data-count="350">0</strong><em>+</em>
+          </div>
+          <p class="stat-label">مشروع منجز</p>
+        </article>
+
+        <article class="stat-card">
+          <span class="stat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3"  y="3"  width="7" height="7" rx="1.5"/>
+              <rect x="14" y="3"  width="7" height="7" rx="1.5"/>
+              <rect x="3"  y="14" width="7" height="7" rx="1.5"/>
+              <rect x="14" y="14" width="7" height="7" rx="1.5"/>
+            </svg>
+          </span>
+          <div class="stat-num">
+            <strong data-count="7">0</strong>
+          </div>
+          <p class="stat-label">قطاعات إستراتيجية</p>
+        </article>
+
+        <article class="stat-card">
+          <span class="stat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </span>
+          <div class="stat-num">
+            <strong data-count="24">0</strong><em>/7</em>
+          </div>
+          <p class="stat-label">دعم متواصل</p>
+        </article>
       </div>
     </div>
   </section>

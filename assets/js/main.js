@@ -83,136 +83,92 @@
   })();
 
   /* =========================================================
-     4) Hero scene 0 — code matrix columns
+     4) Hero SCENE 0 — generate vertical bar cluster
      ========================================================= */
-  const codeChars = '0101{}<>/$#*+=-_();[]ƒΣ∆∇⌘λ→←•◊◆';
-  const codeGroup = $('.hero-scene[data-scene="0"] .code-cols');
-  if (codeGroup && window.anime) {
-    const cols = 22, rows = 22, W = 1600, H = 900, step = W / cols;
-    for (let i = 0; i < cols; i++) {
-      const x = i * step + step / 2;
-      for (let j = 0; j < rows; j++) {
-        const t = document.createElementNS(SVG_NS, 'text');
-        t.setAttribute('x', x);
-        t.setAttribute('y', j * (H / rows) + 22);
-        t.setAttribute('text-anchor', 'middle');
-        t.setAttribute('opacity', (Math.random() * 0.55 + 0.10).toFixed(2));
-        t.textContent = codeChars[(Math.random() * codeChars.length) | 0];
-        codeGroup.appendChild(t);
-      }
+  (function buildScene0Bars() {
+    const g = $('.hero-scene[data-scene="0"] .s0-bars');
+    if (!g) return;
+    const W = 1600, H = 900;
+    // cluster of bars on the LEFT (under the rising arrow)
+    const count = 22;
+    const startX = 140, endX = 440;
+    const span = endX - startX;
+    const barW = 9;
+    for (let i = 0; i < count; i++) {
+      const x = startX + (span / (count - 1)) * i;
+      // smooth ascending heights with mild variance
+      const base = 80 + (i / count) * 240;
+      const noise = (Math.random() - .5) * 40;
+      const h = Math.max(40, base + noise);
+      const r = document.createElementNS(SVG_NS, 'rect');
+      r.setAttribute('x', x);
+      r.setAttribute('y', H - 120 - h);
+      r.setAttribute('width', barW);
+      r.setAttribute('height', h);
+      r.setAttribute('rx', 2);
+      r.style.animationDelay = (i * 0.10) + 's';
+      g.appendChild(r);
     }
-    anime({
-      targets: codeGroup.children,
-      opacity: () => [0.05, Math.random() * 0.55 + 0.15],
-      duration: () => 2000 + Math.random() * 3000,
-      delay: anime.stagger(20, { from: 'random' }),
-      direction: 'alternate',
-      easing: 'easeInOutSine',
-      loop: true,
-    });
-  }
-
-  /* =========================================================
-     5) Hero scene 1 — neural net
-     ========================================================= */
-  (function buildNeuralNet() {
-    const edges = $('.hero-scene[data-scene="1"] .nn-edges');
-    const nodes = $('.hero-scene[data-scene="1"] .nn-nodes');
-    if (!edges || !nodes || !window.anime) return;
-
-    const layers = [{ x: 240, n: 5 }, { x: 600, n: 7 }, { x: 1000, n: 7 }, { x: 1360, n: 4 }];
-    const ys = (count) => {
-      const arr = []; const span = 700, top = (900 - span) / 2;
-      for (let i = 0; i < count; i++) arr.push(top + (span / (count - 1)) * i);
-      return arr;
-    };
-    const layerPos = layers.map(l => ({ x: l.x, y: ys(l.n) }));
-
-    for (let li = 0; li < layerPos.length - 1; li++) {
-      const a = layerPos[li], b = layerPos[li + 1];
-      a.y.forEach(ay => {
-        b.y.forEach(by => {
-          const p = document.createElementNS(SVG_NS, 'path');
-          p.setAttribute('d', `M${a.x},${ay} C${(a.x+b.x)/2},${ay} ${(a.x+b.x)/2},${by} ${b.x},${by}`);
-          p.setAttribute('stroke-opacity', (Math.random() * 0.45 + 0.15).toFixed(2));
-          edges.appendChild(p);
-        });
-      });
-    }
-    layerPos.forEach(l => {
-      l.y.forEach(yy => {
-        const c = document.createElementNS(SVG_NS, 'circle');
-        c.setAttribute('cx', l.x); c.setAttribute('cy', yy); c.setAttribute('r', 6);
-        nodes.appendChild(c);
-      });
-    });
-
-    anime({
-      targets: edges.querySelectorAll('path'),
-      strokeDashoffset: [anime.setDashoffset, 0],
-      easing: 'easeInOutSine',
-      duration: 2200,
-      delay: anime.stagger(30, { from: 'first' }),
-      direction: 'alternate',
-      loop: true,
-    });
-    anime({
-      targets: nodes.querySelectorAll('circle'),
-      r: [{ value: 9 }, { value: 5 }],
-      opacity: [{ value: 1 }, { value: 0.55 }],
-      duration: 1800,
-      easing: 'easeInOutQuad',
-      delay: anime.stagger(120, { from: 'random' }),
-      loop: true,
-      direction: 'alternate',
-    });
   })();
 
   /* =========================================================
-     6) Hero scene 3 — waves
+     5) Hero SCENE 2 — consulting network (hub + spokes)
      ========================================================= */
-  (function buildWaves() {
-    const waves = $('.hero-scene[data-scene="3"] .wave-lines');
-    const dots  = $('.hero-scene[data-scene="3"] .data-dots');
-    if (!waves || !dots || !window.anime) return;
+  (function buildScene2Network() {
+    const edges  = $('.hero-scene[data-scene="2"] .s2-edges');
+    const nodes  = $('.hero-scene[data-scene="2"] .s2-nodes');
+    const pulses = $('.hero-scene[data-scene="2"] .s2-pulses');
+    if (!edges || !nodes || !window.anime) return;
 
-    const W = 1600, H = 900;
-    for (let i = 0; i < 7; i++) {
-      const baseY = 200 + i * 90 + (Math.random() - .5) * 20;
-      const amp = 28 + Math.random() * 30;
-      const pts = [];
-      for (let x = 0; x <= W; x += 60) {
-        const y = baseY + Math.sin((x / W) * Math.PI * (2 + i)) * amp;
-        pts.push(`${x === 0 ? 'M' : 'L'}${x},${y.toFixed(1)}`);
+    const cx = 800, cy = 450;
+    // three rings of nodes at varying radii
+    const rings = [
+      { r: 180, count: 6, nodeR: 8,  offset: 0 },
+      { r: 280, count: 9, nodeR: 6,  offset: Math.PI / 12 },
+      { r: 380, count: 12, nodeR: 5, offset: 0 },
+    ];
+
+    rings.forEach((ring, ri) => {
+      for (let i = 0; i < ring.count; i++) {
+        const ang = (Math.PI * 2 / ring.count) * i + ring.offset;
+        const nx = cx + Math.cos(ang) * ring.r;
+        const ny = cy + Math.sin(ang) * ring.r;
+        // edge from hub to node
+        const p = document.createElementNS(SVG_NS, 'path');
+        p.setAttribute('d', `M${cx},${cy} L${nx},${ny}`);
+        p.style.animationDelay = (i * 0.08 + ri * 0.4) + 's';
+        edges.appendChild(p);
+        // node
+        const c = document.createElementNS(SVG_NS, 'circle');
+        c.setAttribute('cx', nx);
+        c.setAttribute('cy', ny);
+        c.setAttribute('r', ring.nodeR);
+        c.style.animationDelay = (i * 0.15 + ri * 0.3) + 's';
+        nodes.appendChild(c);
       }
-      const p = document.createElementNS(SVG_NS, 'path');
-      p.setAttribute('d', pts.join(' '));
-      p.setAttribute('stroke-dasharray', '6 10');
-      waves.appendChild(p);
-    }
-    for (let i = 0; i < 24; i++) {
-      const c = document.createElementNS(SVG_NS, 'circle');
-      c.setAttribute('cx', Math.random() * W);
-      c.setAttribute('cy', Math.random() * H);
-      c.setAttribute('r', (Math.random() * 2.5 + 1).toFixed(1));
-      c.setAttribute('opacity', '0.55');
-      dots.appendChild(c);
-    }
+    });
 
-    anime({
-      targets: waves.querySelectorAll('path'),
-      strokeDashoffset: [0, -200],
-      duration: 5000, easing: 'linear', loop: true,
-      delay: anime.stagger(120),
-    });
-    anime({
-      targets: dots.querySelectorAll('circle'),
-      opacity: [0.2, 1],
-      r: () => [1, 2 + Math.random() * 2],
-      duration: 2500, direction: 'alternate',
-      delay: anime.stagger(80, { from: 'random' }),
-      easing: 'easeInOutSine', loop: true,
-    });
+    // traveling pulses along the inner ring spokes
+    const innerSpokes = 6;
+    for (let i = 0; i < innerSpokes; i++) {
+      const ang = (Math.PI * 2 / innerSpokes) * i;
+      const tx = cx + Math.cos(ang) * 180;
+      const ty = cy + Math.sin(ang) * 180;
+      const p = document.createElementNS(SVG_NS, 'circle');
+      p.setAttribute('cx', cx);
+      p.setAttribute('cy', cy);
+      p.setAttribute('r', 4);
+      pulses.appendChild(p);
+      anime({
+        targets: p,
+        cx: tx, cy: ty,
+        opacity: [{ value: 0, duration: 0 }, { value: 1, duration: 200 }, { value: 0, duration: 800 }],
+        duration: 1800,
+        delay: i * 220,
+        easing: 'easeOutQuart',
+        loop: true,
+      });
+    }
   })();
 
   /* =========================================================
@@ -440,6 +396,41 @@
   })();
 
   /* =========================================================
+     10b) Features — scroll-pinned cards (mozn-style)
+     ========================================================= */
+  (function featuresScroll() {
+    const blocks = $$('.feat-block');
+    const cards  = $$('.feat-card[data-card]');
+    if (!blocks.length || !cards.length) return;
+
+    const setActive = (idx) => {
+      blocks.forEach((b, k) => b.classList.toggle('is-active', k === idx));
+      cards.forEach((c, k)  => c.classList.toggle('is-active', k === idx));
+    };
+
+    const io = new IntersectionObserver((entries) => {
+      // pick the entry with the largest intersection ratio
+      let best = null;
+      entries.forEach(e => {
+        if (e.isIntersecting && (!best || e.intersectionRatio > best.intersectionRatio)) {
+          best = e;
+        }
+      });
+      if (best) {
+        const idx = +best.target.dataset.index;
+        if (!Number.isNaN(idx)) setActive(idx);
+      }
+    }, {
+      rootMargin: '-42% 0px -42% 0px',
+      threshold: [0, .25, .5, .75, 1]
+    });
+
+    blocks.forEach(b => io.observe(b));
+    // safety: kick the first one
+    setActive(0);
+  })();
+
+  /* =========================================================
      11) Stats counter
      ========================================================= */
   (function stats() {
@@ -465,7 +456,7 @@
      12) Scroll reveal
      ========================================================= */
   (function reveal() {
-    const candidates = $$('.about-copy, .about-visual, .feat-card, .contact-copy, .contact-form, .sec-head, .sectors-grid, .stats-grid, .foot-grid');
+    const candidates = $$('.about-copy, .about-visual, .stat-card, .contact-copy, .contact-form, .sec-head, .sectors-grid, .stats-grid, .foot-grid');
     candidates.forEach(el => el.classList.add('reveal'));
     const io = new IntersectionObserver(ents => {
       ents.forEach(e => {
